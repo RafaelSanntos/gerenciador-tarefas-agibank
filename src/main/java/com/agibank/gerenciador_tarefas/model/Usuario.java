@@ -3,6 +3,7 @@ package com.agibank.gerenciador_tarefas.model;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,16 +18,26 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "usuario")
 public class Usuario {
+
     @Id
+    @Column(name = "Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Email é obrigatório")
+    @Column(name = "email", nullable = false)
     private String email;
 
+    @NotBlank(message = "Nome é obrigatório")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @NotBlank(message = "Matricula é obrigatório")
+    @Column(name = "matricula", nullable = false)
     private Long matricula;
 
+    @NotBlank(message = "Senha é obrigatório")
+    @Column(name = "senha", nullable = false)
     private String senha;
 
     @Enumerated(EnumType.STRING)
