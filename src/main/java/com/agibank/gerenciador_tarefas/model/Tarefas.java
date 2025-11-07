@@ -1,17 +1,13 @@
 package com.agibank.gerenciador_tarefas.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.agibank.gerenciador_tarefas.model.enums.Situacao;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.aspectj.bridge.Message;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tarefas")
@@ -42,4 +38,8 @@ public class Tarefas {
     @Column(name = "Conclusao")
     @NotNull
     private LocalDateTime Conclusao;
+
+    @NotBlank(message = "Situacao é obrigatorio")
+    @Enumerated(EnumType.STRING)
+    Situacao situacao;
 }
