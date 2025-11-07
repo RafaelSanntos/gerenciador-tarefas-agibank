@@ -20,6 +20,7 @@ import java.util.UUID;
 public class Usuario {
 
     @Id
+    @Column(name = "Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
