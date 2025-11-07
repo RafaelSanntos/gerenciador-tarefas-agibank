@@ -4,6 +4,7 @@ import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "tarefas")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Tarefas {
 
     @Id
