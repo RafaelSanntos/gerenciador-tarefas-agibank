@@ -7,12 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record TarefaResponseDTO(
-        @NotNull Long id,
-        @NotBlank String Titulo,
-        @NotBlank String Descricao,
-        @NotBlank String Matricula,
-        @NotNull LocalDateTime Inicio,
-        @NotNull LocalDateTime Conclusao,
+        Long id,
+        String Titulo,
+        String Descricao,
+        String Matricula,
+        LocalDateTime Inicio,
+        LocalDateTime Conclusao,
         Situacao situacao
 ) {
 }
