@@ -4,12 +4,12 @@ Bem-vindo ao Gerenciador de Tarefas API, uma API REST feita para quem acredita q
 Aqui, cada tarefa é uma missão, cada usuário tem um papel, e a autenticação JWT é o escudo que protege tudo isso.
 
 Porque até para organizar o caos, é bom ter um sistema bem feito.
-
+---
 🧩 Sobre o projeto
 
 O Gerenciador de Tarefas API foi desenvolvido em Java com Spring Boot e tem como objetivo gerenciar tarefas e usuários com diferentes níveis de acesso.
 Cada colaborador possui um papel definido, e o sistema garante que só quem tem permissão execute as ações certas — tudo isso com segurança e eficiência.
-
+---
 ⚙️ Tecnologias e ferramentas usadas
 
 ☕ Java 17+
@@ -32,7 +32,7 @@ Perfis disponíveis: GESTOR | SUPERVISOR | COLABORADOR
 
 Token JWT com validade de 2 horas e senhas criptografadas com BCrypt.
 A matrícula dos usuários é gerada automaticamente (100–9999).
-
+---
 📌 Funcionalidades principais
 👤 Usuários
 
@@ -84,7 +84,7 @@ prioridade: enum (BAIXA, MEDIA, ALTA, URGENTE)
 status: enum (PENDENTE, EM_ANDAMENTO, CONCLUIDA, CANCELADA)
 
 matricula: responsável pela tarefa
-
+---
 🔍 Exemplos de uso
 🔑 Login
 POST /api/v1/usuarios/login
