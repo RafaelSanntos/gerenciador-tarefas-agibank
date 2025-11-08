@@ -1,5 +1,6 @@
 package com.agibank.gerenciador_tarefas.controller;
 
+import com.agibank.gerenciador_tarefas.dto.request.LoginRequest;
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
@@ -25,6 +26,15 @@ public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioService usuarioService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            LoginRequest usuarioLogado = usuarioService.login(request.email(), request.senha());
+            return ResponseEntity.ok(usuarioLogado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
     @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioResponse> cadastrarUsuario(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){

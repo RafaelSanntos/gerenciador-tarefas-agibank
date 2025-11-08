@@ -1,5 +1,6 @@
 package com.agibank.gerenciador_tarefas.service;
 
+import com.agibank.gerenciador_tarefas.dto.request.LoginRequest;
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
 import com.agibank.gerenciador_tarefas.model.Usuario;
@@ -8,6 +9,7 @@ import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import com.agibank.gerenciador_tarefas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,16 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    //Metodo de Login
+    @Transactional
+    public LoginRequest login(String email, String senha) {
+        Usuario usuario = usuarioRepository.findByEmailAndSenha(email, senha)
+                .orElseThrow(() -> new IllegalArgumentException("Credenciais inválidas"));
+
+        return new LoginRequest(usuario.getEmail(), usuario.getSenha());
+    }
 
     //Criar Usuarios
     @Transactional
@@ -32,7 +44,8 @@ public class UsuarioService {
         novoColaborador.setNome(request.nome());
         novoColaborador.setMatricula(matriculaRandom);
         novoColaborador.setEmail(request.email());
-        novoColaborador.setSenha(request.senha());
+        String senhaCriptografada = passwordEncoder.encode(request.senha());
+        novoColaborador.setSenha(senhaCriptografada);
         novoColaborador.setDataAdmissao(LocalDateTime.now());
         novoColaborador.setCargo(request.cargo());
         novoColaborador.setSetor(request.setor());
