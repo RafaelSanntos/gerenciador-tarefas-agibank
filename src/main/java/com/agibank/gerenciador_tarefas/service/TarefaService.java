@@ -84,6 +84,17 @@ public class TarefaService {
 
     public TarefaResponseDTO atualizarTarefa(Long id, TarefaRequestDTO tarefaAtualizada) {
         Tarefas tarefaExistente = tarefaRepository.findById(id).orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+
+        if (tarefaExistente.getSituacao() == SituacaoTarefa.CONCLUIDA){
+            throw new TarefasException("Tarefa ja concluida, não é possivel alterar");
+        }
+
+        if (tarefaExistente.getSituacao() == SituacaoTarefa.CANCELADA){
+            throw new TarefasException("Tarefa cancelada, não é possivel alterar");
+        }
+
+        tarefaExistente.setSituacao(tarefaAtualizada.situacao());
+
         tarefaExistente.setTitulo(tarefaAtualizada.titulo());
         tarefaExistente.setDescricao(tarefaAtualizada.descricao());
         tarefaExistente.setMatricula(tarefaAtualizada.matricula());
@@ -105,11 +116,23 @@ public class TarefaService {
     }
 
     public void atualizarSituacaoTarefa(Long id, SituacaoTarefa novaSituacao) {
+
         Tarefas tarefaExistente = tarefaRepository.findById(id).orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+
+        if (tarefaExistente.getSituacao() == SituacaoTarefa.CONCLUIDA){
+            throw new TarefasException("Tarefa ja concluida, não é possivel alterar");
+        }
+
+        if (tarefaExistente.getSituacao() == SituacaoTarefa.CANCELADA){
+            throw new TarefasException("Tarefa cancelada, não é possivel alterar");
+        }
+
         tarefaExistente.setSituacao(novaSituacao);
+
         if (novaSituacao.equals(SituacaoTarefa.CONCLUIDA)) {
             tarefaExistente.setConclusao(LocalDateTime.now());
         }
+
         tarefaRepository.save(tarefaExistente);
     }
 
