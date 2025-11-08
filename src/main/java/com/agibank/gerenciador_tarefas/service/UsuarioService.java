@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +20,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    //Criar Usuarios
     @Transactional
     public UsuarioResponse criarColaborador(UsuarioRequestDTO request) {
 
@@ -37,6 +38,7 @@ public class UsuarioService {
 
     }
 
+    // Atualizar Cargo
     @Transactional
     public UsuarioResponse atualizarCargoColaborador(Long matricula, Cargo novoCargo) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
@@ -47,6 +49,7 @@ public class UsuarioService {
         return mapUsuarioToResponse(usuarioAtualizado);
     }
 
+    // Atualizar Setor
     @Transactional
     public UsuarioResponse atualizarSetorColaborador(Long matricula, Setor novoSetor) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
@@ -57,6 +60,7 @@ public class UsuarioService {
         return mapUsuarioToResponse(usuarioAtualizado);
     }
 
+    // Atualizar situação
     @Transactional
     public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
@@ -66,6 +70,7 @@ public class UsuarioService {
         return mapUsuarioToResponse(usuarioAtualizado);
     }
 
+    //Acha usuario por matricula
     @Transactional(readOnly = true)
     public UsuarioResponse buscarPorMatricula(Long matricula) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
@@ -73,6 +78,25 @@ public class UsuarioService {
         return mapUsuarioToResponse(usuario);
     }
 
+    // Lista todos do setor
+    @Transactional(readOnly = true)
+    public List<UsuarioResponse> listarTodosSetor(Setor setor){
+        List<Usuario> usuarios = usuarioRepository.findAllBySetor(setor);
+        return usuarios.stream()
+                .map(this::mapUsuarioToResponse)
+                .toList();
+    }
+
+    //Lista todos por cargo
+    @Transactional(readOnly = true)
+    public List<UsuarioResponse> listarTodosCargo(Cargo cargo){
+        List<Usuario> usuarios = usuarioRepository.findAllByCargo(cargo);
+        return usuarios.stream()
+                .map(this::mapUsuarioToResponse)
+                .toList();
+    }
+
+    // Mapea dados para response
     private UsuarioResponse mapUsuarioToResponse(Usuario usuario) {
         return new UsuarioResponse(
                 usuario.getId(),
