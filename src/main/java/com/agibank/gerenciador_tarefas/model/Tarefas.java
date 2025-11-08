@@ -1,6 +1,7 @@
 package com.agibank.gerenciador_tarefas.model;
 
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
+import com.agibank.gerenciador_tarefas.model.enums.SituacaoTarefa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -42,5 +43,5 @@ public class Tarefas {
 
     @NotBlank(message = "Situacao é obrigatorio")
     @Enumerated(EnumType.STRING)
-    Situacao situacao;
+    SituacaoTarefa situacao;
 }
