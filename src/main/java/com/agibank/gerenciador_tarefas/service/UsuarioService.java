@@ -1,12 +1,15 @@
 package com.agibank.gerenciador_tarefas.service;
 
+import com.agibank.gerenciador_tarefas.dto.request.TarefaRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
 import com.agibank.gerenciador_tarefas.exception.Usuarios.UsuarioException;
+import com.agibank.gerenciador_tarefas.model.Tarefas;
 import com.agibank.gerenciador_tarefas.model.Usuario;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
+import com.agibank.gerenciador_tarefas.repository.TarefaRepository;
 import com.agibank.gerenciador_tarefas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -22,6 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final TarefaRepository tarefaRepository;
 
     //Criar Usuarios
     @Transactional
@@ -76,10 +81,30 @@ public class UsuarioService {
 
     // Atualizar situação
     @Transactional
-    public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao) {
+    public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao, Long novaMatricula) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula " + matricula));
         usuario.setSituacao(novaSituacao);
+        if (usuario.getSituacao() == Situacao.FERIAS ||
+                usuario.getSituacao() == Situacao.DESLIGADO ||
+                usuario.getSituacao() == Situacao.AFASTADO ||
+                usuario.getSituacao() == Situacao.LICENCA) {
+
+            Optional<Usuario> novoResponsavelOp = usuarioRepository.findFirstBySituacaoAndSetorAndMatriculaNot(Situacao.ATIVO,usuario.getSetor(),usuario.getMatricula());
+
+            if (novoResponsavelOp.isEmpty()) {
+                throw new UsuarioException("Nenhum colaborador ativo encontrado para assumir as tarefas");
+            }
+
+            Usuario novoResponsavel = novoResponsavelOp.get();
+
+            List<Tarefas> tarefasT = tarefaRepository.findByMatricula(matricula);
+
+            for (Tarefas tarefa : tarefasT) {
+                tarefa.setMatricula(novoResponsavel.getMatricula());
+            }
+            tarefaRepository.saveAll(tarefasT);
+        }
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
         return mapUsuarioToResponse(usuarioAtualizado);
     }

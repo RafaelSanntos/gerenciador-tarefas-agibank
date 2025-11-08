@@ -58,8 +58,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/atualizarstatus")
-    public ResponseEntity<UsuarioResponse> atualizarSituacao(@Valid Long matricula, Situacao novaSituacao, @RequestBody UsuarioRequestDTO request){
-        return ResponseEntity.ok(usuarioService.atualizarSituacaoColaborador(matricula, novaSituacao));
+    public ResponseEntity<UsuarioResponse> atualizarSituacao(@Valid Long matricula, Situacao novaSituacao, Long novaMatricula, @RequestBody UsuarioRequestDTO request){
+        return ResponseEntity.ok(usuarioService.atualizarSituacaoColaborador(matricula, novaSituacao,novaMatricula));
     }
 
 }

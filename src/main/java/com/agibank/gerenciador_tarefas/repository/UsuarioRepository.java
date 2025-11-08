@@ -3,6 +3,7 @@ package com.agibank.gerenciador_tarefas.repository;
 import com.agibank.gerenciador_tarefas.model.Usuario;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
+import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     Optional<Usuario> findByEmail(String email);
     List<Usuario> findAllBySetor(Setor setor);
     List<Usuario> findAllByCargo(Cargo cargo);
+    Optional<Usuario> findFirstBySituacaoAndSetorAndMatriculaNot(Situacao situacao, Setor setor, Long matricula);
+
 }
