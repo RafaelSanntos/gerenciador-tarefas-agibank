@@ -5,6 +5,7 @@ import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,8 +35,9 @@ public class Usuario {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @NotBlank(message = "Matricula é obrigatório")
+    @NotNull
     @Column(name = "matricula", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
 
     @NotBlank(message = "Senha é obrigatório")
