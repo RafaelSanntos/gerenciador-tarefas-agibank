@@ -54,8 +54,9 @@ public class UsuarioService {
     // Atualizar Cargo
     @Transactional
     public UsuarioResponse atualizarCargoColaborador(Long matricula, Cargo novoCargo) {
+
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula: " + matricula));
 
         usuario.setCargo(novoCargo);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
@@ -66,7 +67,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarSetorColaborador(Long matricula, Setor novoSetor) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula: " + matricula));
 
         usuario.setSetor(novoSetor);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
@@ -77,7 +78,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula " + matricula));
         usuario.setSituacao(novaSituacao);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
         return mapUsuarioToResponse(usuarioAtualizado);
@@ -87,7 +88,7 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public UsuarioResponse buscarPorMatricula(Long matricula) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matrícula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matrícula: " + matricula));
         return mapUsuarioToResponse(usuario);
     }
 
