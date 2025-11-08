@@ -38,7 +38,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponse atualizarCargoColaborador(String matricula, Cargo novoCargo) {
+    public UsuarioResponse atualizarCargoColaborador(Long matricula, Cargo novoCargo) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
 
@@ -48,7 +48,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponse atualizarSetorColaborador(String matricula, Setor novoSetor) {
+    public UsuarioResponse atualizarSetorColaborador(Long matricula, Setor novoSetor) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
 
@@ -58,7 +58,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioResponse atualizarSituacaoColaborador(String matricula, Situacao novaSituacao) {
+    public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula " + matricula));
         usuario.setSituacao(novaSituacao);
@@ -67,7 +67,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public UsuarioResponse buscarPorMatricula(String matricula) {
+    public UsuarioResponse buscarPorMatricula(Long matricula) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matrícula: " + matricula));
         return mapUsuarioToResponse(usuario);

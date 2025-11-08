@@ -102,4 +102,21 @@ public List<TarefaResponseDTO> buscarTarefaPorMatricula(String matricula){
         }
         tarefaRepository.save(tarefaExistente);
     }
+
+    public List<TarefaResponseDTO> listarTodasTarefas(){
+        List<Tarefas> tarefas = tarefaRepository.findAll();
+        List<TarefaResponseDTO> respostas = new java.util.ArrayList<>();
+        for (Tarefas t : tarefas) {
+            respostas.add(new TarefaResponseDTO(
+                    t.getId(),
+                    t.getTitulo(),
+                    t.getDescricao(),
+                    t.getMatricula(),
+                    t.getInicio(),
+                    t.getConclusao(),
+                    t.getSituacao()
+            ));
+        }
+        return respostas;
+    }
 }
