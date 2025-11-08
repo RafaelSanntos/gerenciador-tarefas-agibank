@@ -37,6 +37,7 @@ public class Usuario {
 
     @NotNull
     @Column(name = "matricula", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
 
     @NotBlank(message = "Senha é obrigatório")
