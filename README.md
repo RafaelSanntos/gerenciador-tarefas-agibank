@@ -1,4 +1,4 @@
-🗂️ # Gerenciador de Tarefas API – Organização com poder de gestão
+#🗂️ Gerenciador de Tarefas API – Organização com poder de gestão
 
 Bem-vindo ao Gerenciador de Tarefas API, uma API REST feita para quem acredita que produtividade também precisa de estrutura, papéis bem definidos e… um toque de Java.
 Aqui, cada tarefa é uma missão, cada usuário tem um papel, e a autenticação JWT é o escudo que protege tudo isso.
