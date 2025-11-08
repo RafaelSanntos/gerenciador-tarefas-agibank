@@ -2,6 +2,7 @@ package com.agibank.gerenciador_tarefas.model;
 
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
+import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -40,10 +42,16 @@ public class Usuario {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @Column(name = "data_admissao", nullable = false)
+    private LocalDateTime dataAdmissao;
+
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 
     @Enumerated(EnumType.STRING)
     private Setor setor;
+
+    @Enumerated(EnumType.STRING)
+    private Situacao situacao;
 
 }
