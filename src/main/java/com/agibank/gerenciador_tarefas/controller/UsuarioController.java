@@ -3,6 +3,7 @@ package com.agibank.gerenciador_tarefas.controller;
 import com.agibank.gerenciador_tarefas.dto.request.LoginRequest;
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
+import com.agibank.gerenciador_tarefas.model.Usuario;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;

@@ -1,5 +1,8 @@
 package com.agibank.gerenciador_tarefas.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Cargo {
     GESTOR("ROLE_GESTOR"),
     SUPERVISOR("ROLE_SUPERVISOR"),
