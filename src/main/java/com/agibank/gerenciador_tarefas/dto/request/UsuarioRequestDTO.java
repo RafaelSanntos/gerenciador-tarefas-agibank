@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 public record UsuarioRequestDTO(
         String nome,
+        Long matricula,
         String email,
         String senha,
         LocalDateTime dataAdmissao,

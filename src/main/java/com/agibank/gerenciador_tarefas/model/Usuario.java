@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @Entity
@@ -37,7 +38,6 @@ public class Usuario {
 
     @NotNull
     @Column(name = "matricula", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
 
     @NotBlank(message = "Senha é obrigatório")

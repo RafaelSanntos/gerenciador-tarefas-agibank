@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +26,11 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse criarColaborador(UsuarioRequestDTO request) {
 
+        long matriculaRandom = ThreadLocalRandom.current().nextLong(10000L, 10000L);
+
         Usuario novoColaborador = new Usuario();
         novoColaborador.setNome(request.nome());
+        novoColaborador.setMatricula(matriculaRandom);
         novoColaborador.setEmail(request.email());
         novoColaborador.setSenha(request.senha());
         novoColaborador.setDataAdmissao(LocalDateTime.now());
@@ -35,7 +40,6 @@ public class UsuarioService {
 
         Usuario usuarioSalvo = usuarioRepository.save(novoColaborador);
         return mapUsuarioToResponse(usuarioSalvo);
-
     }
 
     // Atualizar Cargo
