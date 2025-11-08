@@ -9,12 +9,13 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-public record UsuarioRequestDTO(@NotBlank String nome,
-                                @NotBlank String email,
-                                @NotBlank String senha,
-                                @NotNull Long matricula,
-                                LocalDateTime dataAdmissao,
-                                Cargo cargo,
-                                Setor setor,
-                                Situacao situacao) {
+public record UsuarioRequestDTO(
+        String nome,
+        String email,
+        String senha,
+        LocalDateTime dataAdmissao,
+        Cargo cargo,
+        Setor setor,
+        Situacao situacao
+) {
 }
