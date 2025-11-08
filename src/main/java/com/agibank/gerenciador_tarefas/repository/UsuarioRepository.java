@@ -15,5 +15,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     Optional<Usuario> findByMatricula(Long matricula);
     List<Usuario> findAllBySetor(Setor setor);
     List<Usuario> findAllByCargo(Cargo cargo);
-
 }
