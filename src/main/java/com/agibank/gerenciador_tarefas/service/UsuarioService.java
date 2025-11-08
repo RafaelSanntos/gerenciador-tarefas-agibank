@@ -12,6 +12,7 @@ import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import com.agibank.gerenciador_tarefas.repository.TarefaRepository;
 import com.agibank.gerenciador_tarefas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TarefaRepository tarefaRepository;
+
 
     //Criar Usuarios
     @Transactional
