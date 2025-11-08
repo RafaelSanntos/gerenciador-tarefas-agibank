@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class GlobalException extends RuntimeException {
+public class GlobalException {
 
     @ExceptionHandler(TarefasException.class)
     public ResponseEntity<String> handlerTarefasException(TarefasException e) {
