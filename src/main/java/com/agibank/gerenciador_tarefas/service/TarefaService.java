@@ -22,11 +22,11 @@ public class TarefaService {
     public TarefaResponseDTO criarTarefa(TarefaRequestDTO tarefa){
         Tarefas newTarefa = new Tarefas();
         newTarefa.setInicio(LocalDateTime.now());
-        newTarefa.setConclusao(tarefa.conclusao());
+        newTarefa.setConclusao(LocalDateTime.now());
         newTarefa.setTitulo(tarefa.titulo());
         newTarefa.setDescricao(tarefa.descricao());
         newTarefa.setMatricula(tarefa.matricula());
-        newTarefa.setSituacao(tarefa.situacao());
+        newTarefa.setSituacao(SituacaoTarefa.PENDENTE);
         Tarefas tarefaSalva = tarefaRepository.save(newTarefa);
         TarefaResponseDTO tarefaResponseDTO = new TarefaResponseDTO(
                 tarefaSalva.getId(),
