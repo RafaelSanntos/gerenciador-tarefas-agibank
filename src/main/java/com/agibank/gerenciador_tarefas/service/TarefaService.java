@@ -22,11 +22,9 @@ public class TarefaService {
     public TarefaResponseDTO criarTarefa(TarefaRequestDTO tarefa){
         Tarefas newTarefa = new Tarefas();
         newTarefa.setInicio(LocalDateTime.now());
-        newTarefa.setConclusao(tarefa.conclusao());
         newTarefa.setTitulo(tarefa.titulo());
         newTarefa.setDescricao(tarefa.descricao());
         newTarefa.setMatricula(tarefa.matricula());
-        newTarefa.setSituacao(tarefa.situacao());
         Tarefas tarefaSalva = tarefaRepository.save(newTarefa);
         TarefaResponseDTO tarefaResponseDTO = new TarefaResponseDTO(
                 tarefaSalva.getId(),
@@ -78,8 +76,7 @@ public List<TarefaResponseDTO> buscarTarefaPorMatricula(String matricula){
         tarefaExistente.setTitulo(tarefaAtualizada.titulo());
         tarefaExistente.setDescricao(tarefaAtualizada.descricao());
         tarefaExistente.setMatricula(tarefaAtualizada.matricula());
-        tarefaExistente.setSituacao(tarefaAtualizada.situacao());
-        if(tarefaAtualizada.situacao().equals( SituacaoTarefa.CONCLUIDA)){
+        if(tarefaAtualizada.equals( SituacaoTarefa.CONCLUIDA)){
             tarefaExistente.setConclusao(LocalDateTime.now());
         }
         Tarefas tarefaSalva = tarefaRepository.save(tarefaExistente);
