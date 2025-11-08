@@ -23,23 +23,23 @@ public class Tarefas {
 
     @Column(name = "titulo", nullable = false)
     @NotBlank(message = "Titulo é obrigatório")
-    private String Titulo;
+    private String titulo;
 
     @Column(name = "descricao", nullable = false)
     @NotBlank(message = "Descricao é obrigatorio")
-    private String Descricao;
+    private String descricao;
 
     @Column(name = "matricula", nullable = false)
     @NotBlank(message = "Matricula é obrigatorio")
-    private String Matricula;
+    private String matricula;
 
     @Column(name = "Inicio")
     @NotNull
-    private LocalDateTime Inicio;
+    private LocalDateTime inicio;
 
     @Column(name = "Conclusao")
     @NotNull
-    private LocalDateTime Conclusao;
+    private LocalDateTime conclusao;
 
     @NotBlank(message = "Situacao é obrigatorio")
     @Enumerated(EnumType.STRING)
