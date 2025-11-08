@@ -39,7 +39,7 @@ public class TarefaController {
     }
 
     @GetMapping("/buscarPorMatricula")
-    public ResponseEntity<List<TarefaResponseDTO>> buscarTarefaPorMatricula(@RequestParam String matricula) throws TarefasException {
+    public ResponseEntity<List<TarefaResponseDTO>> buscarTarefaPorMatricula(@RequestParam Long matricula) throws TarefasException {
         List<TarefaResponseDTO> tarefas = tarefaService.buscarTarefaPorMatricula(matricula);
         return ResponseEntity.ok(tarefas);
     }

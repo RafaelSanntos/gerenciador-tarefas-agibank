@@ -2,6 +2,7 @@ package com.agibank.gerenciador_tarefas.service;
 
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
+import com.agibank.gerenciador_tarefas.exception.Usuarios.UsuarioException;
 import com.agibank.gerenciador_tarefas.model.Usuario;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
@@ -25,6 +26,14 @@ public class UsuarioService {
     //Criar Usuarios
     @Transactional
     public UsuarioResponse criarColaborador(UsuarioRequestDTO request) {
+
+        if (usuarioRepository.findByMatricula(request.matricula()).isPresent()) {
+            throw new UsuarioException("Matricula ja cadastrada");
+        }
+
+        if (usuarioRepository.findByEmail(request.email()).isPresent()) {
+            throw new UsuarioException("Email ja cadastrado");
+        }
 
         long matriculaRandom = ThreadLocalRandom.current().nextLong(100L, 10000L);
 
@@ -84,7 +93,7 @@ public class UsuarioService {
 
     // Lista todos do setor
     @Transactional(readOnly = true)
-    public List<UsuarioResponse> listarTodosSetor(Setor setor){
+    public List<UsuarioResponse> listarTodosSetor(Setor setor) {
         List<Usuario> usuarios = usuarioRepository.findAllBySetor(setor);
         return usuarios.stream()
                 .map(this::mapUsuarioToResponse)
@@ -93,7 +102,7 @@ public class UsuarioService {
 
     //Lista todos por cargo
     @Transactional(readOnly = true)
-    public List<UsuarioResponse> listarTodosCargo(Cargo cargo){
+    public List<UsuarioResponse> listarTodosCargo(Cargo cargo) {
         List<Usuario> usuarios = usuarioRepository.findAllByCargo(cargo);
         return usuarios.stream()
                 .map(this::mapUsuarioToResponse)

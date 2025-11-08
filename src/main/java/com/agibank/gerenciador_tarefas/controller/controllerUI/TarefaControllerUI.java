@@ -38,7 +38,7 @@ public class TarefaControllerUI {
     }
 
     @GetMapping("/buscarPorMatricula")
-    public String buscarPorMatricula(@RequestParam String matricula, Model model) throws TarefasException {
+    public String buscarPorMatricula(@RequestParam Long matricula, Model model) throws TarefasException {
         List<TarefaResponseDTO> tarefas = tarefaService.buscarTarefaPorMatricula(matricula);
         model.addAttribute("tarefas", tarefas);
         model.addAttribute("filtro", "Matrícula: " + matricula);

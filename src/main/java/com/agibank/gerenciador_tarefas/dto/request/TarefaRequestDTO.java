@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public record TarefaRequestDTO(
         String titulo,
         String descricao,
-        String matricula,
+        Long matricula,
         LocalDateTime inicio,
         LocalDateTime conclusao,
         SituacaoTarefa situacao

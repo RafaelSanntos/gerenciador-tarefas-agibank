@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     Optional<Usuario> findByMatricula(Long matricula);
+    Optional<Usuario> findByEmail(String email);
     List<Usuario> findAllBySetor(Setor setor);
     List<Usuario> findAllByCargo(Cargo cargo);
 }

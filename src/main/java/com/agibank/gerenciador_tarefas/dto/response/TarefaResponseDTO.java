@@ -8,7 +8,7 @@ public record TarefaResponseDTO(
         Long id,
         String titulo,
         String descricao,
-        String matricula,
+        Long matricula,
         LocalDateTime inicio,
         LocalDateTime conclusao,
         SituacaoTarefa situacao
