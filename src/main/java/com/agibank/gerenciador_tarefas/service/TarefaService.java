@@ -22,6 +22,7 @@ public class TarefaService {
     public TarefaResponseDTO criarTarefa(TarefaRequestDTO tarefa){
         Tarefas newTarefa = new Tarefas();
         newTarefa.setInicio(LocalDateTime.now());
+        newTarefa.setConclusao(tarefa.conclusao());
         newTarefa.setTitulo(tarefa.titulo());
         newTarefa.setDescricao(tarefa.descricao());
         newTarefa.setMatricula(tarefa.matricula());

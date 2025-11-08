@@ -2,6 +2,7 @@ package com.agibank.gerenciador_tarefas.model;
 
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
 import com.agibank.gerenciador_tarefas.model.enums.SituacaoTarefa;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -19,7 +20,8 @@ public class Tarefas {
 
     @Id
     @Column(name = "id", nullable = false)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "titulo", nullable = false)
     @NotBlank(message = "Titulo é obrigatório")
@@ -41,7 +43,7 @@ public class Tarefas {
     @NotNull
     private LocalDateTime conclusao;
 
-    @NotBlank(message = "Situacao é obrigatorio")
+    @NotNull
     @Enumerated(EnumType.STRING)
     SituacaoTarefa situacao;
 }

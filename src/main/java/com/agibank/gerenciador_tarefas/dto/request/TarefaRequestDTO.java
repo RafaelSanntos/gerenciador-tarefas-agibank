@@ -5,15 +5,16 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 
-public record TarefaRequestDTO(@NotBlank(message = "Titulo é obrigatório")
-                               String titulo,
-                               @NotBlank(message = "Descricao é obrigatorio")
-                               String descricao,
-                               @NotBlank(message = "Matricula é obrigatorio")
-                               String matricula,
-                               @NotBlank(message = "Situacao é obrigatorio")
-                               @Enumerated(EnumType.STRING)
-                               SituacaoTarefa situacao) {
+import java.time.LocalDateTime;
+
+public record TarefaRequestDTO(
+        String titulo,
+        String descricao,
+        String matricula,
+        LocalDateTime inicio,
+        LocalDateTime conclusao,
+        SituacaoTarefa situacao
+) {
 
 
 }

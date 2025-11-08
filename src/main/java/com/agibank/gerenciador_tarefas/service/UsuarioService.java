@@ -26,7 +26,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse criarColaborador(UsuarioRequestDTO request) {
 
-        long matriculaRandom = ThreadLocalRandom.current().nextLong(10000L, 10000L);
+        long matriculaRandom = ThreadLocalRandom.current().nextLong(100L, 10000L);
 
         Usuario novoColaborador = new Usuario();
         novoColaborador.setNome(request.nome());
