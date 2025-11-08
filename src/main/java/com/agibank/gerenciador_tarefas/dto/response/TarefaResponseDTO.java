@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 public record TarefaResponseDTO(
         Long id,
-        String titulo,
-        String descricao,
-        String matricula,
-        LocalDateTime inicio,
-        LocalDateTime conclusao,
+        String Titulo,
+        String Descricao,
+        Long Matricula,
+        LocalDateTime Inicio,
+        LocalDateTime Conclusao,
         SituacaoTarefa situacao
 ) {
 }

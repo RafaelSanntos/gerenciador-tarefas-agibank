@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TarefaRepository extends JpaRepository<Tarefas, Long> {
 
-   List<Tarefas> findByMatricula(String matricula);
+   List<Tarefas> findByMatricula(Long matricula);
 
     List<Tarefas> findBySituacao(SituacaoTarefa situacaoTarefa);
 }

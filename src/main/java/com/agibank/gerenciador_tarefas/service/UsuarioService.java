@@ -4,10 +4,13 @@ import com.agibank.gerenciador_tarefas.Config.SpringSecurity.TokenService;
 import com.agibank.gerenciador_tarefas.dto.request.LoginRequest;
 import com.agibank.gerenciador_tarefas.dto.request.UsuarioRequestDTO;
 import com.agibank.gerenciador_tarefas.dto.response.UsuarioResponse;
+import com.agibank.gerenciador_tarefas.exception.Usuarios.UsuarioException;
+import com.agibank.gerenciador_tarefas.model.Tarefas;
 import com.agibank.gerenciador_tarefas.model.Usuario;
 import com.agibank.gerenciador_tarefas.model.enums.Cargo;
 import com.agibank.gerenciador_tarefas.model.enums.Setor;
 import com.agibank.gerenciador_tarefas.model.enums.Situacao;
+import com.agibank.gerenciador_tarefas.repository.TarefaRepository;
 import com.agibank.gerenciador_tarefas.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,8 +32,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 public class UsuarioService {
 
-
     private final UsuarioRepository usuarioRepository;
+    private final TarefaRepository tarefaRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
@@ -45,6 +49,10 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponse criarColaborador(UsuarioRequestDTO request) {
+        if (usuarioRepository.findByEmail(request.email()).isPresent()) {
+            throw new UsuarioException("Email já cadastrado");
+        }
+
         long matriculaRandom = ThreadLocalRandom.current().nextLong(100L, 10000L);
 
         Usuario novoColaborador = new Usuario();
@@ -65,7 +73,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarCargoColaborador(Long matricula, Cargo novoCargo) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula: " + matricula));
 
         usuario.setCargo(novoCargo);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
@@ -75,7 +83,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarSetorColaborador(Long matricula, Setor novoSetor) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula: " + matricula));
 
         usuario.setSetor(novoSetor);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
@@ -85,8 +93,31 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarSituacaoColaborador(Long matricula, Situacao novaSituacao) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matricula " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matricula " + matricula));
+
         usuario.setSituacao(novaSituacao);
+
+        if (usuario.getSituacao() == Situacao.FERIAS ||
+                usuario.getSituacao() == Situacao.DESLIGADO ||
+                usuario.getSituacao() == Situacao.AFASTADO ||
+                usuario.getSituacao() == Situacao.LICENCA) {
+
+            Optional<Usuario> novoResponsavelOp = usuarioRepository.findFirstBySituacaoAndSetorAndMatriculaNot(
+                    Situacao.ATIVO, usuario.getSetor(), usuario.getMatricula());
+
+            if (novoResponsavelOp.isEmpty()) {
+                throw new UsuarioException("Nenhum colaborador ativo encontrado para assumir as tarefas");
+            }
+
+            Usuario novoResponsavel = novoResponsavelOp.get();
+            List<Tarefas> tarefasT = tarefaRepository.findByMatricula(matricula);
+
+            for (Tarefas tarefa : tarefasT) {
+                tarefa.setMatricula(novoResponsavel.getMatricula());
+            }
+            tarefaRepository.saveAll(tarefasT);
+        }
+
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
         return mapUsuarioToResponse(usuarioAtualizado);
     }
@@ -94,12 +125,12 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public UsuarioResponse buscarPorMatricula(Long matricula) {
         Usuario usuario = usuarioRepository.findByMatricula(matricula)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com a matrícula: " + matricula));
+                .orElseThrow(() -> new UsuarioException("Usuário não encontrado com a matrícula: " + matricula));
         return mapUsuarioToResponse(usuario);
     }
 
     @Transactional(readOnly = true)
-    public List<UsuarioResponse> listarTodosSetor(Setor setor){
+    public List<UsuarioResponse> listarTodosSetor(Setor setor) {
         List<Usuario> usuarios = usuarioRepository.findAllBySetor(setor);
         return usuarios.stream()
                 .map(this::mapUsuarioToResponse)
@@ -107,7 +138,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<UsuarioResponse> listarTodosCargo(Cargo cargo){
+    public List<UsuarioResponse> listarTodosCargo(Cargo cargo) {
         List<Usuario> usuarios = usuarioRepository.findAllByCargo(cargo);
         return usuarios.stream()
                 .map(this::mapUsuarioToResponse)

@@ -7,7 +7,7 @@ public record TarefaRequestDTO(@NotBlank(message = "Titulo é obrigatório")
                                @NotBlank(message = "Descricao é obrigatorio")
                                String descricao,
                                @NotBlank(message = "Matricula é obrigatorio")
-                               String matricula)
+                               Long matricula)
                                {
 
 

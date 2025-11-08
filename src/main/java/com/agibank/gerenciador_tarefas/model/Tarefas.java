@@ -32,8 +32,8 @@ public class Tarefas {
     private String descricao;
 
     @Column(name = "matricula", nullable = false)
-    @NotBlank(message = "Matricula é obrigatorio")
-    private String matricula;
+    @NotNull
+    private Long matricula;
 
     @Column(name = "Inicio")
     @NotNull
