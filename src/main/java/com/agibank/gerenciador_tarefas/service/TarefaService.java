@@ -54,7 +54,7 @@ public class TarefaService {
         }
         return respostas;
     }
-public List<TarefaResponseDTO> buscarTarefaPorMatricula(String matricula){
+public List<TarefaResponseDTO> buscarTarefaPorMatricula(Long matricula){
         List<Tarefas> tarefas = tarefaRepository.findByMatricula(matricula);
         List<TarefaResponseDTO> respostas = new java.util.ArrayList<>();
         for (Tarefas t : tarefas) {
